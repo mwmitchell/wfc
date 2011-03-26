@@ -19,22 +19,30 @@ class User
     @likes_by_category ||= likes.sort_by {|l| l['name']}.group_by {|l| l['category']}.sort
   end
   
-  def friends
-    graph.get_connections("me", "friends")
+  def feed(opts = {})
+    graph.get_connections(uid, "feed", opts)
+  end
+  
+  def friends(opts = {})
+    connections(uid, "friends", opts)
+  end
+  
+  def friend_feed(uid, opts = {})
+    connections(uid, "feed", opts)
   end
   
   def me
-    @me ||= object_by_id("me")
+    @me ||= object("me")
   end
   
-  # check out graph.get_objects
+  # TODO: check out graph.get_objects
   
-  def object_by_id(node, identifier)
-    graph.get_object(identifier)
+  def object(node, identifier, opts = {})
+    graph.get_object(node, identifier, opts)
   end
   
-  def feed(identifier = "me")
-    graph.get_connections(identifier, "feed")
+  def connections(node, type, opts = {})
+    graph.get_connections(node, type, opts)
   end
   
   # 

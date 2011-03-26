@@ -33,6 +33,8 @@ gem 'haml'
 gem 'haml-rails'
 gem 'koala', "0.10.0"
 
+gem "will_paginate", :git => "https://github.com/mislav/will_paginate.git", :tag => "v3.0.pre2"
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'

@@ -52,7 +52,11 @@ FbBase::Application.routes.draw do
 
   match 'login' => 'facebook'
   
-  match 'facebook/:action' => 'facebook', :as => :facebook
+  match "/friends" => "facebook", :action => :friends, :as => :friends
+  match "/friends/:id/commenter_counts" => "facebook", :action => :friend_commenter_counts, :as => :friend_commenter_counts
+  
+  match '/:action' => 'facebook', :as => :facebook
+  
   root :to => 'facebook#index'
 
   # See how all your routes lay out with "rake routes"

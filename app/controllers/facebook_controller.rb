@@ -10,11 +10,13 @@ class FacebookController < ApplicationController
   end
   
   def friends
-    @friends = current_user.friends
+    @friends = current_user.friends(:limit => 10, :offset => params[:offset])
+    render :partial => "friends"
   end
   
-  def friend_feed
-    @friend_feed = @user.graph.get_connections(params[:uid], "feed")
+  def friend_commenter_counts
+    @friend_feed = current_user.graph.get_connections(params[:id], "feed", :limit => 500)
+    render :partial => "friend_commenter_counts"
   end
   
   def login
