@@ -1,8 +1,8 @@
--if comment_counts.any?
+-if @friend_feed.any?
   %p
     %em= "#{@friend["name"]}:"
   %table
-    -comment_counts.each do |(uid,data)|
+    -comment_counts(@friend_feed).each do |(uid,data)|
       %tr
         %td.first= data[:count]
         %td= data[:name]

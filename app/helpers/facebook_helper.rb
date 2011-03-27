@@ -1,5 +1,6 @@
 module FacebookHelper
   
+  # Builds a fb:login-button element.
   def facebook_login_button(size='large')
     content_tag("fb:login-button", nil , {
       :perms => 'user_likes, friends_likes, read_stream',
@@ -9,6 +10,8 @@ module FacebookHelper
       :onlogin => 'location = "/"'})
   end
   
+  # Builds the previous and next links
+  # for paginating through friends.
   def friends_pagination friends
     out = []
     if friends.respond_to? :paging
@@ -24,13 +27,22 @@ module FacebookHelper
     out.join(" || ")
   end
   
+  # Extracts the query params from a url
+  # and returns them in Hash form.
   def extract_query_params url
     return if url.blank?
     Rack::Utils.parse_query(URI.parse(url).query)
   end
   
-  def comment_counts
-    c = @friend_feed.inject({}) do |counts,item|
+  # Calculates the counts for a
+  # @friends_feed set.
+  # Returns an array of arrays,
+  # where each sub-array
+  # contains 2 items, the first being
+  # a user-id, the second being a Hash,
+  # containing :count and :name keys.
+  def comment_counts friend_feed
+    c = friend_feed.inject({}) do |counts,item|
       counts.tap do
         next unless item["comments"]
         item["comments"]["data"].each do |comment|
