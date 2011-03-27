@@ -19,6 +19,7 @@ class FacebookController < ApplicationController
   end
   
   def friend_commenter_counts
+    @friend = current_user.friend(params[:id])
     @friend_feed = current_user.graph.get_connections(params[:id], "feed", :limit => 100)
     render :partial => "friend_commenter_counts"
   end

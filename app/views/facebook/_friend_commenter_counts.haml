@@ -1,3 +1,10 @@
-%ul
-  -comment_counts.each do |(uid,data)|
-    %li= "#{data[:count]} - #{data[:name]}"
+-if comment_counts.any?
+  %p
+    %em= "#{@friend["name"]}:"
+  %table
+    -comment_counts.each do |(uid,data)|
+      %tr
+        %td.first= data[:count]
+        %td= data[:name]
+-else
+  %em= "No comments found for #{@friend["name"]}."

@@ -1,5 +1,5 @@
 .span-4.colborder
-  %h2 Your "likes":
+  %h2 Your Likes
   - @likes_by_category.each do |category, likes|
     %h3= category
     %ul
@@ -7,8 +7,9 @@
         %li= like['name']
 
 %div.span-13.colborder
-  %h2 Your "friends":
+  %h2 Your Friends
   #friends
 
 %div.span-5.last
-  #friendCommentorCounts
+  %h4 Friend Commenter Counts
+  #friendCommentorCounts Click on a friends name to view their commenter counts!

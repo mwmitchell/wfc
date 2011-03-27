@@ -11,14 +11,15 @@
     <![endif]-->
     = stylesheet_link_tag 'application'
   %body
-    %div.container
-      #header.span-24.box
-        %div.span-18
+    .container
+      #header.container
+        .span-16
           %h1 WildFire Programming Challenge
-        %div.span-6.last= facebook_login_button('large')
-      #loading.span-24.last
-        %img{:src => "images/ajax-loader.gif"}
-      #fb-root.span-24.last= yield.downcase
+        #loading.span-3
+          %img{:src => "images/ajax-loader.gif"} &nbsp
+        #login.span-5.last= facebook_login_button('large')
+      %hr
+      #fb-root.container= yield.downcase
 
 :javascript
   window.fbAsyncInit = function() {

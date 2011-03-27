@@ -31,8 +31,8 @@ class User
     connections(uid, "feed", opts)
   end
   
-  def user_photo(uid)
-    graph.get_picture(uid)
+  def friend(uid)
+    object(uid)
   end
   
   def me
@@ -41,8 +41,8 @@ class User
   
   # TODO: check out graph.get_objects
   
-  def object(node, identifier, opts = {})
-    graph.get_object(node, identifier, opts)
+  def object(node, opts = {})
+    graph.get_object(node, opts)
   end
   
   def connections(node, type, opts = {})
