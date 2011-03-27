@@ -1,5 +1,14 @@
 $(function(){
   
+  $("#loading img").hide();
+  
+  $(document).ajaxStart(function(){
+    $("#loading img").show();
+  }).
+  ajaxStop(function(){
+    $("#loading img").hide();
+  });
+  
   var App = {
     
     init : function(){
@@ -15,16 +24,26 @@ $(function(){
           return false;
         });
         $(".friendCommenterCountLink").click(function(){
-          app.updateFriendCommentorCounts($(this).attr("href"));
+          if($(".friendCommenterCountLink.active").length > 0 ){
+            // alert("waiting...");
+            return false;
+          }
+          var link = $(this);
+          link.addClass("active");
+          app.updateFriendCommentorCounts(link.attr("href"), function(){
+            $(".friendCommenterCountLink.selected").removeClass("selected");
+            link.removeClass("active").addClass("selected");
+          });
           return false;
         });
       });
     },
     
-    updateFriendCommentorCounts : function(path){
+    updateFriendCommentorCounts : function(path, callback){
       $.get(path, function(data){
         $("#friendcommentorcounts").html(data);
-      })
+        callback();
+      });
     }
     
   }

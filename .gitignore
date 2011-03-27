@@ -7,3 +7,5 @@ config/facebook.yml
 log/*
 
 Gemfile.lock
+
+.DS_Store

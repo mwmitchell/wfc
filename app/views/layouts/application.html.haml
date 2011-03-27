@@ -2,20 +2,22 @@
 %html
   %head
     %title Wildfire Programming Challenge
-    = stylesheet_link_tag 'application', 'blueprint/screen.css'
+    = stylesheet_link_tag 'blueprint/screen.css'
     = stylesheet_link_tag 'blueprint/print.css', :media => "print"
     = javascript_include_tag 'jquery', 'application'
     = csrf_meta_tag
-    
     <!--[if lt IE 8]>
     = stylesheet_link_tag 'blueprint/ie.css', :media => "screen, projection"
     <![endif]-->
-  
+    = stylesheet_link_tag 'application'
   %body
     %div.container
       #header.span-24.box
-        %h1 WildFire Programming Challenge
-        = facebook_login_button('large')
+        %div.span-18
+          %h1 WildFire Programming Challenge
+        %div.span-6.last= facebook_login_button('large')
+      #loading.span-24.last
+        %img{:src => "images/ajax-loader.gif"}
       #fb-root= yield.downcase
 
 :javascript

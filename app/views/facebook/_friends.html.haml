@@ -1,5 +1,6 @@
+%h3 Your Friends
 = friends_pagination(@friends).html_safe
 
 %ul
   - @friends.each do |f|
-    %li= friend_commenter_counts_link f
+    %li= friend_commenter_counts_link(f).html_safe

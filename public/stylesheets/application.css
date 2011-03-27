@@ -1,0 +1,24 @@
+body {
+  color:#666;
+}
+
+a {
+  color:#48a;
+}
+
+.friendCommenterCountLink.selected {
+  font-weight:bold;
+  color:#971;
+  text-decoration:none;
+}
+  .friendCommenterCountLink.active {
+    font-weight:italic;
+    color:#aaa;
+    text-decoration:none;
+  }
+
+#loading{
+  min-height:21px;
+  padding-bottom:.5em;
+  text-align:right;
+}

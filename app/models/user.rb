@@ -10,7 +10,7 @@ class User
     @graph = graph
     @uid = uid
   end
-
+  
   def likes
     @likes ||= graph.get_connections(uid, 'likes')
   end
@@ -29,6 +29,10 @@ class User
   
   def friend_feed(uid, opts = {})
     connections(uid, "feed", opts)
+  end
+  
+  def user_photo(uid)
+    graph.get_picture(uid)
   end
   
   def me
