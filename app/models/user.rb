@@ -27,10 +27,12 @@ class User
     connections(uid, "feed", opts)
   end
   
+  # Shortcut to graph.get_object
   def object(node, opts = {})
     graph.get_object(node, opts)
   end
   
+  # Shortcut to graph.get_connections
   def connections(node, type, opts = {})
     graph.get_connections(node, type, opts)
   end
