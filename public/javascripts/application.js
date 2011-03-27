@@ -10,11 +10,11 @@ $(function(){
       var app = this;
       $.get(path, function(data){
         $("#friends").html(data);
-        $("#friends .friendsPaginationLink").click(function(){
+        $(".friendsPaginationLink").click(function(){
           app.updateFriendsList($(this).attr("href"));
           return false;
         });
-        $("#friends a.friendCommenterCountLink").click(function(){
+        $(".friendCommenterCountLink").click(function(){
           app.updateFriendCommentorCounts($(this).attr("href"));
           return false;
         });
@@ -23,7 +23,7 @@ $(function(){
     
     updateFriendCommentorCounts : function(path){
       $.get(path, function(data){
-        $("#friendCommentorCounts").html(data);
+        $("#friendcommentorcounts").html(data);
       })
     }
     

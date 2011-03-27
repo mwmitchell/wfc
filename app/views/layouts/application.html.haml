@@ -12,12 +12,11 @@
     <![endif]-->
   
   %body
-    #header
-      = facebook_login_button('large')
-      %h1 WildFire Programming Challenge
-    #content
-      #fb-root
-      = yield
+    %div.container
+      #header.span-24.box
+        %h1 WildFire Programming Challenge
+        = facebook_login_button('large')
+      #fb-root= yield.downcase
 
 :javascript
   window.fbAsyncInit = function() {

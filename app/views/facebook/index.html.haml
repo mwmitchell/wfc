@@ -1,11 +1,11 @@
-%h2 Your "likes":
+%div.span-10
+  %h2 Your "likes":
+  - @likes_by_category.each do |category, likes|
+    %h3= category
+    %ul
+      - likes.each do |like|
+        %li= like['name']
 
-- @likes_by_category.each do |category, likes|
-  %h3= category
-  %ul
-    - likes.each do |like|
-      %li= like['name']
-
-%div#friendCommentorCounts
-
-%div#friends
+%div.span-14.last
+  #friendCommentorCounts
+  #friends

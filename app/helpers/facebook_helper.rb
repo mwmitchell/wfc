@@ -34,4 +34,18 @@ module FacebookHelper
     Rack::Utils.parse_query(URI.parse(url).query)
   end
   
+  def comment_counts
+    c = @friend_feed.inject({}) do |counts,item|
+      counts.tap do
+        next unless item["comments"]
+        item["comments"]["data"].each do |comment|
+          uid, name = comment["from"]["id"], comment["from"]["name"]
+          counts[uid] ||= {:count => 0, :name => name}
+          counts[uid][:count] += 1
+        end
+      end
+    end
+    c.sort{|a,b| b[-1][:count] <=> a[-1][:count] }
+  end
+  
 end
