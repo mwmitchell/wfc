@@ -1,6 +1,4 @@
-%h3 Your Friends
-= friends_pagination(@friends).html_safe
+%p= friends_pagination(@friends).html_safe
 
-%ul
-  - @friends.each do |f|
-    %li= friend_commenter_counts_link(f).html_safe
+- @friends.each_with_index do |f,i|
+  = render "friend", :friend => f, :is_end => (f == @friends.last), :is_last => ((i+1) % 4 == 0)

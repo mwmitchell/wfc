@@ -2,7 +2,7 @@ class FacebookController < ApplicationController
 
   before_filter :facebook_auth
   before_filter :require_login, :except => :login
-
+  
   helper_method :logged_in?, :current_user
   
   def index
@@ -14,21 +14,9 @@ class FacebookController < ApplicationController
   end
   
   def friends
-    @friends = current_user.friends(:limit => 10, :offset => params[:offset], :fields => "name,id,picture")
+    @friends = current_user.friends(:limit => 12, :offset => params[:offset], :fields => "name,id,picture")
     render :partial => "friends"
   end
-  
-  # [SELECT post_id FROM stream WHERE source_id = 'UID'] returns the user's wall posts (stories on their profile)
-  
-  # [SELECT post_id FROM stream WHERE source_id in (SELECT target_id FROM connection WHERE source_id = 'UID')] returns the visible stream of all of a user's connections (Thats why you get less post with this)
-  
-  # {
-  # "friends" : "select uid1 from friend where uid2 = me()",
-  # 
-  # "q1" : "select post_id from stream where source_id in (select uid1 from #friends)",
-  # 
-  # cq : "select text,fromid,post_id from comment where post_id in (select post_id from #q1)"
-  # }
   
   def friend_commenter_counts
     @friend_feed = current_user.graph.get_connections(params[:id], "feed", :limit => 100)

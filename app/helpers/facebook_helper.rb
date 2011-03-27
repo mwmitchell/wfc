@@ -9,14 +9,6 @@ module FacebookHelper
       :onlogin => 'location = "/"'})
   end
   
-  def friend_commenter_counts_link friend
-    puts friend.inspect
-    a = link_to(friend["name"], friend_commenter_counts_path(:id => friend["id"]),
-      :class => "friendCommenterCountLink")
-    img = tag(:img, :src => friend["picture"], :title => "#{friend["name"]} - #{friend["id"]}")
-    content_tag(:div, a + tag(:br) + img)
-  end
-  
   def friends_pagination friends
     out = []
     if friends.respond_to? :paging

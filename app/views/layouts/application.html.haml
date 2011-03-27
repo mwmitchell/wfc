@@ -18,7 +18,7 @@
         %div.span-6.last= facebook_login_button('large')
       #loading.span-24.last
         %img{:src => "images/ajax-loader.gif"}
-      #fb-root= yield.downcase
+      #fb-root.span-24.last= yield.downcase
 
 :javascript
   window.fbAsyncInit = function() {

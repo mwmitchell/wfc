@@ -22,3 +22,15 @@ a {
   padding-bottom:.5em;
   text-align:right;
 }
+
+img.photo {
+  border:solid 1px #999;
+}
+
+.center {
+  text-align:center;
+}
+
+#friendcommentorcounts ul li{
+  list-style:none;
+}

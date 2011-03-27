@@ -1,4 +1,4 @@
-%div.span-10
+.span-4.colborder
   %h2 Your "likes":
   - @likes_by_category.each do |category, likes|
     %h3= category
@@ -6,8 +6,9 @@
       - likes.each do |like|
         %li= like['name']
 
-%div.span-7
+%div.span-13.colborder
+  %h2 Your "friends":
   #friends
 
-%div.span-7.last
+%div.span-5.last
   #friendCommentorCounts

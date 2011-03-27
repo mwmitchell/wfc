@@ -1,0 +1,7 @@
+%div{:class => is_last ? "center span-2.last append-1 append-bottom" : "center span-2 append-1 append-bottom"}
+  =link_to("<img src='#{friend["picture"]}' class='photo' title='#{friend["name"]} - #{friend["id"]}'/>".html_safe, friend_commenter_counts_path(:id => friend["id"]), :class => "friendCommenterCountLink")
+  %br
+  =link_to(friend["name"], friend_commenter_counts_path(:id => friend["id"]), :class => "friendCommenterCountLink")
+
+- if is_last
+  %hr
