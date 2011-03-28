@@ -24,7 +24,7 @@ module FacebookHelper
         end
       end
     end
-    out.join(" || ")
+    out.join(" | ")
   end
   
   # Extracts the query params from a url
@@ -32,27 +32,6 @@ module FacebookHelper
   def extract_query_params url
     return if url.blank?
     Rack::Utils.parse_query(URI.parse(url).query)
-  end
-  
-  # Calculates the counts for a
-  # @friends_feed set.
-  # Returns an array of arrays,
-  # where each sub-array
-  # contains 2 items, the first being
-  # a user-id, the second being a Hash,
-  # containing :count and :name keys.
-  def comment_counts friend_feed
-    c = friend_feed.inject({}) do |counts,item|
-      counts.tap do
-        next unless item["comments"]
-        item["comments"]["data"].each do |comment|
-          uid, name = comment["from"]["id"], comment["from"]["name"]
-          counts[uid] ||= {:count => 0, :name => name}
-          counts[uid][:count] += 1
-        end
-      end
-    end
-    c.sort{|a,b| b[-1][:count] <=> a[-1][:count] }
   end
   
 end

@@ -1,10 +1,10 @@
--if @friend_feed.any?
+-if @friend_feed.any? && @friend_feed.comment_counts.any?
   %p
-    %em= "#{@friend["name"]}:"
+    %span.selected= "#{@friend["name"]}:"
   %table
-    -comment_counts(@friend_feed).each do |(uid,data)|
+    -@friend_feed.comment_counts.each do |(uid,data)|
       %tr
         %td.first= data[:count]
         %td= data[:name]
 -else
-  %em= "No comments found for #{@friend["name"]}."
+  %span= "No comments found for <div class='selected'>#{@friend["name"]}</div>.".html_safe

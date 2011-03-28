@@ -38,15 +38,17 @@ $(function(){
           return false;
         });
         $(".friendCommenterCountLink").click(function(){
-          if($(".friendCommenterCountLink.active").length > 0 ){
-            alert("Please wait...");
-            return false;
-          }
+          $('#friends').block({
+            message: "loading comment data...",
+            css: { padding : "1em", border : '#333' }
+          });
+          $("#friendcommentorcounts").fadeOut();
           var link = $(this);
-          link.addClass("active");
           app.updateFriendCommentorCounts(link.attr("href"), function(){
             $(".friendCommenterCountLink.selected").removeClass("selected");
-            link.removeClass("active").addClass("selected");
+            link.addClass("selected");
+            $("#friendcommentorcounts").fadeIn();
+            $('#friends').unblock();
           });
           return false;
         });

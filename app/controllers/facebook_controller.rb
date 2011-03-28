@@ -31,7 +31,7 @@ class FacebookController < ApplicationController
     uid = params[:id]
     raise "id param missing" if uid.blank?
     @friend = current_user.object(uid)
-    @friend_feed = current_user.connections(uid, "feed", :limit => 100)
+    @friend_feed = current_user.friend_feed(uid, :limit => 100)
     render :partial => "friend_commenter_counts"
   end
   
