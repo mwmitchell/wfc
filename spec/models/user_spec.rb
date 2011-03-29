@@ -1,14 +1,101 @@
 require 'spec_helper'
 
 describe User do
-  before do
-    @graph = mock('graph api')
-    @uid = 42
-    @user = User.new(@graph, @uid)
+  
+  describe "init_from_token_and_uid" do
+    it "should call :new with the proper args" do
+      token, uid = "my-token", "my-uid"
+      User.should_receive(:new).
+        with(instance_of(Koala::Facebook::GraphAPI), uid).once
+      User.init_from_token_and_uid(token, uid)
+    end
   end
-
+  
+  describe "#connections" do
+    
+    before do
+      @user = User.new(mock("graph api"), "my-uid")
+    end
+    
+    it "should call graph.get_connections" do
+      node, type, opts = "123", "friends", {:limit => 1}
+      @user.graph.should_receive(:get_connections).
+        with(node, type, opts)
+      @user.connections(node, type, opts)
+    end
+    
+    describe "friends" do
+      it "should call connections with the proper args" do
+        opts = {:limit => 1}
+        @user.should_receive(:connections).
+          with(@user.uid, "friends", opts)
+        @user.friends(opts)
+      end
+    end
+    
+    describe "friend_feed" do
+      
+      it "should call connections with the proper args" do
+        uid, opts = "123", {:abc => :def}
+        @user.should_receive(:connections).
+          with(uid, "feed", opts).
+            and_return({})
+        result = @user.friend_feed(uid, opts)
+        result.should be_a(User::CountableFeedComments)
+      end
+      
+      it "should produce comment/user counts" do
+        feed_items = [
+          {
+            "comments" => {
+              "data" => [
+                {"from" => {"name" => "foaf-1", "id" => 1}},
+                {"from" => {"name" => "foaf-2", "id" => 2}},
+                {"from" => {"name" => "foaf-1", "id" => 1}}
+              ]
+            }
+          },
+          {
+            "comments" => {
+              "data" => [
+                {"from" => {"name" => "foaf-1", "id" => 1}},
+                {"from" => {"name" => "foaf-2", "id" => 2}},
+                {"from" => {"name" => "foaf-3", "id" => 3}},
+                {"from" => {"name" => "foaf-1", "id" => 1}},
+                {"from" => {"name" => "foaf-1", "id" => 1}}
+              ]
+            }
+          },
+          {
+            "comments" => {
+              "data" => nil
+            }
+          },
+          {
+            "no-comments-here" => nil
+          }
+        ]
+        @user.should_receive(:connections).
+          and_return(feed_items)
+        result = @user.friend_feed("123", {})
+        result.should be_a(User::CountableFeedComments)
+        result.should eq(feed_items)
+        counts = result.comment_counts
+        expected_counts = [
+          [1, {:count=>5, :name=>"foaf-1"}],
+          [2, {:count=>2, :name=>"foaf-2"}],
+          [3, {:count=>1, :name=>"foaf-3"}]
+        ]
+        counts.should eq(expected_counts)
+      end
+    end
+  end
+  
   describe 'retrieving likes' do
     before do
+      @graph = mock('graph api')
+      @uid = 42
+      @user = User.new(@graph, @uid)
       @likes = [
         {
           "name" => "The Office",
@@ -43,7 +130,7 @@ describe User do
       ]
       @graph.should_receive(:get_connections).with(@uid, 'likes').once.and_return(@likes)
     end
-
+    
     describe '#likes' do
       it 'should retrieve the likes via the graph api' do
         @user.likes.should == @likes
