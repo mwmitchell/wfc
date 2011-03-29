@@ -32,10 +32,6 @@ describe FacebookController do
         assigns[:likes_by_category].should == @likes
       end
       
-      # describe "friends with GET" do
-      # 
-      # end
-      
     end
     
     context "Koala::Facebook::APIError raised" do
@@ -89,7 +85,7 @@ describe FacebookController do
       User.should_receive(:new).and_return(@user)
     end
     
-    it "should produce a friends list using html" do
+    it "should render using the expected views" do
       opts = {:offset => 10}
       friends = [{"id" => "1", "name" => "sam"}, {"id" => "2", "name" => "iam"}]
       @user.should_receive(:friends).
@@ -100,6 +96,7 @@ describe FacebookController do
       assigns[:friends].should == friends
       response.should render_template("facebook/_friends")
       response.should render_template("facebook/_friend")
+      response.should_not render_template("layouts/application")
     end
     
   end
