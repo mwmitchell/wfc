@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    %title Wildfire Programming Challenge
+    %title The Facebook Friend Comment Counter
     = stylesheet_link_tag 'blueprint/screen.css'
     = stylesheet_link_tag 'blueprint/print.css', :media => "print"
     = javascript_include_tag 'jquery', 'application', "blockui"
@@ -14,7 +14,7 @@
     .container
       #header.container
         .span-16
-          %h1 WildFire Programming Challenge
+          %h1 The FB, Friend's Comment Counter
         #loading.span-3
           %img{:src => "images/ajax-loader.gif"} &nbsp
         #login.span-5.last= facebook_login_button('large')
