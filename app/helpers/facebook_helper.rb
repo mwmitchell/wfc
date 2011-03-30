@@ -15,8 +15,9 @@ module FacebookHelper
   def friends_pagination friends
     out = []
     if friends.respond_to? :paging
+      pagination = friends.paging
       %W(previous next).each do |type|
-        if qparams = extract_query_params(friends.paging[type])
+        if qparams = extract_query_params(pagination[type])
           out << link_to(type, friends_path(:offset => qparams["offset"]),
             :class=>"friendsPaginationLink")
         else
@@ -30,8 +31,8 @@ module FacebookHelper
   # Extracts the query params from a url
   # and returns them in Hash form.
   def extract_query_params url
-    return if url.blank?
-    Rack::Utils.parse_query(URI.parse(url).query)
+    uri = (URI.parse(url).query rescue nil)
+    uri ? Rack::Utils.parse_query(uri) : {}
   end
   
   # Accepts a "friends" array and a
@@ -42,7 +43,7 @@ module FacebookHelper
     index = friends.index friend
     render("friend", {
       :friend => friend,
-      :is_end => friend == @friends.last,
+      :is_end => friend == friends.last,
       :is_last => ((index + 1) % 4 == 0)})
   end
   
