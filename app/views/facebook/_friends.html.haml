@@ -1,4 +1,4 @@
 %p= friends_pagination(@friends).html_safe
 
-- @friends.each_with_index do |f,i|
-  = render "friend", :friend => f, :is_end => (f == @friends.last), :is_last => ((i+1) % 4 == 0)
+- @friends.each do |friend|
+  = render_friend_item_view(@friends,friend)

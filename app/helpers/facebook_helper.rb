@@ -34,4 +34,16 @@ module FacebookHelper
     Rack::Utils.parse_query(URI.parse(url).query)
   end
   
+  # Accepts a "friends" array and a
+  # single friend item from that array.
+  # Returns a view, generated from
+  # the _friend.html.haml partial.
+  def render_friend_item_view(friends, friend)
+    index = friends.index friend
+    render("friend", {
+      :friend => friend,
+      :is_end => friend == @friends.last,
+      :is_last => ((index + 1) % 4 == 0)})
+  end
+  
 end
