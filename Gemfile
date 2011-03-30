@@ -12,4 +12,5 @@ gem 'koala', "0.10.0"
 group :development, :test do
   gem 'rspec', "2.4.0"
   gem 'rspec-rails', "2.4.1"
+  gem 'nokogiri', "1.4.4"
 end
