@@ -7,7 +7,7 @@ gem 'haml-rails', "0.3.4"
 
 gem "typhoeus", "0.2.4"
 
-gem 'koala', "0.10.0"
+gem 'koala', "1.0.0.beta2"
 
 group :development, :test do
   gem 'rspec', "2.4.0"

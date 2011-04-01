@@ -4,7 +4,9 @@
     %title The Facebook Friend Comment Counter
     = stylesheet_link_tag 'blueprint/screen.css'
     = stylesheet_link_tag 'blueprint/print.css', :media => "print"
-    = javascript_include_tag 'jquery', 'application', "blockui"
+    = javascript_include_tag "jquery", "blockui", "application"
+    -if logged_in?
+      <script type="text/javascript">$(function(){App.init();});</script>
     = csrf_meta_tag
     <!--[if lt IE 8]>
     = stylesheet_link_tag 'blueprint/ie.css', :media => "screen, projection"
@@ -24,7 +26,16 @@
 :javascript
   window.fbAsyncInit = function() {
     FB.init({appId: #{FACEBOOK_APP_ID}, status: true, cookie: true, xfbml: true});
+    /*  if the authentication is successful,
+        redirect to the root path if
+        we're still on the login path */
+    FB.Event.subscribe('auth.login', function(response) {
+      if( /\/login$/.test(window.location) ){
+        window.location = "/";
+      }
+    });
   };
+  
   (function() {
     var e = document.createElement('script');
     e.type = 'text/javascript';
