@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    %title The Facebook Friend Comment Counter
+    %title Friend Comments Counter
     = stylesheet_link_tag 'blueprint/screen.css'
     = stylesheet_link_tag 'blueprint/print.css', :media => "print"
     = javascript_include_tag "jquery", "blockui", "application"
@@ -16,7 +16,7 @@
     .container
       #header.container
         .span-16
-          %h1 The FB, Friend's Comment Counter
+          %h1 Friend Comments Counter
         #loading.span-3
           %img{:src => "images/ajax-loader.gif"} &nbsp
         #login.span-5.last= facebook_login_button('large')
