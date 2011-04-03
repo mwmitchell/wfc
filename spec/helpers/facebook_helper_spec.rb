@@ -107,6 +107,22 @@ describe FacebookHelper do
       end
     end
     
+    context "should be OK with bad urls values" do
+      before do
+        @pagination = build_pagination({
+          "previous" => "--",
+          "next" => "--"
+        })
+      end
+      
+      it "should contain the expected next em tag" do
+        ems = @pagination.css("em")
+        ems.size.should == 2
+        ems.first.text.should == "previous"
+        ems.last.text.should == "next"
+      end
+    end
+    
   end
   
   context "extract_query_params" do
