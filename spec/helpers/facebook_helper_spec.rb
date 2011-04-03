@@ -107,7 +107,7 @@ describe FacebookHelper do
       end
     end
     
-    context "should be OK with bad urls values" do
+    context "should be OK with bad urls" do
       before do
         @pagination = build_pagination({
           "previous" => "--",
@@ -115,7 +115,7 @@ describe FacebookHelper do
         })
       end
       
-      it "should contain the expected next em tag" do
+      it "should contain the expected next/prev em tags" do
         ems = @pagination.css("em")
         ems.size.should == 2
         ems.first.text.should == "previous"
