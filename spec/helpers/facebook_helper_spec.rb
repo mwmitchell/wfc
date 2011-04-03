@@ -26,35 +26,85 @@ describe FacebookHelper do
   
   context "friends_pagination" do
     
+    def build_pagination pagination_params = nil
+      friends = mock("friends")
+      if pagination_params
+        friends.stub!(:paging)
+        friends.should_receive(:paging).
+          and_return(pagination_params)
+      end
+      Nokogiri::HTML(helper.friends_pagination(friends))
+    end
+    
     context "no pagination in input" do
       it "should return an empty string" do
-        friends = mock("friends")
-        html = helper.friends_pagination friends
-        html.should eq("")
+        html = build_pagination
+        html.css("body").should be_empty
       end
     end
     
-    context "with pagination on input" do
+    context "with next/prev pagination on input" do
       before do
-        friends = mock("friends")
-        friends.stub!(:paging)
-        friends.should_receive(:paging).
-          and_return({
-            "previous" => "http://localhost?offset=0",
-            "next" => "http://localhost?offset=2"
-          })
-        html = helper.friends_pagination friends
-        @pagination = Nokogiri::HTML(html)
+        pagination = build_pagination({
+          "previous" => friends_path(:offset => 0),
+          "next" => friends_path(:offset => 2)
+        })
+        @prev_link, @next_link = pagination.css("a.friendsPaginationLink")
       end
       
-      it "should contain next and previous links" do
-        prev_link, next_link = @pagination.css("a.friendsPaginationLink")
-        prev_link.text.should eq("previous")
+      it "should contain the expected previous text/href" do
+        @prev_link.text.should eq("previous")
+        @prev_link["href"].should eq(helper.friends_path(:offset => 0))
+      end
+      
+      it "should contain the expected next text/href" do
+        @next_link.text.should eq("next")
+        @next_link["href"].should eq(helper.friends_path(:offset => 2))
+      end
+    end
+    
+    context "with next input only" do
+      before do
+        @pagination = build_pagination({
+          "next" => friends_path(:offset => 2)
+        })
+      end
+      
+      it "should contain the expected next link" do
+        links = @pagination.css("a.friendsPaginationLink")
+        links.size.should == 1
+        next_link = links.first
         next_link.text.should eq("next")
-        prev_link["href"].should eq(helper.friends_path(:offset => 0))
         next_link["href"].should eq(helper.friends_path(:offset => 2))
       end
       
+      it "should contain the expected previous em tag" do
+        ems = @pagination.css("em")
+        ems.size.should == 1
+        ems.first.text.should == "previous"
+      end
+    end
+    
+    context "with previous input only" do
+      before do
+        @pagination = build_pagination({
+          "previous" => friends_path(:offset => 0)
+        })
+      end
+      
+      it "should contain the expected previous link" do
+        links = @pagination.css("a.friendsPaginationLink")
+        links.size.should == 1
+        prev_link = links.first
+        prev_link.text.should eq("previous")
+        prev_link["href"].should eq(helper.friends_path(:offset => 0))
+      end
+      
+      it "should contain the expected next em tag" do
+        ems = @pagination.css("em")
+        ems.size.should == 1
+        ems.first.text.should == "next"
+      end
     end
     
   end

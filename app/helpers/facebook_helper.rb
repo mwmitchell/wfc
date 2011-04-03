@@ -17,7 +17,8 @@ module FacebookHelper
     if friends.respond_to? :paging
       pagination = friends.paging
       %W(previous next).each do |type|
-        if qparams = extract_query_params(pagination[type])
+        qparams = extract_query_params(pagination[type])
+        if qparams.any?
           out << link_to(type, friends_path(:offset => qparams["offset"]),
             :class=>"friendsPaginationLink")
         else

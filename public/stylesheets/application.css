@@ -40,6 +40,10 @@ a {
   text-decoration:none;
 }
 
+#friends {
+  min-height:354px;
+}
+
 #friendcommentorcounts td.first{
   text-align:right;
 }
