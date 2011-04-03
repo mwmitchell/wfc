@@ -14,8 +14,7 @@ module FacebookHelper
   # for paginating through friends.
   def friends_pagination friends
     out = []
-    if friends.respond_to? :paging
-      pagination = friends.paging
+    if friends.respond_to?(:paging) && (pagination = friends.paging)
       %W(previous next).each do |type|
         qparams = extract_query_params(pagination[type])
         if qparams.any?
